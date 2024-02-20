@@ -1,6 +1,9 @@
+import { useAppContext } from "@/context/AppProvider";
 import Link from "next/link";
 
 const Info = () => {
+  const { user } = useAppContext();
+
   return (
     <div className="text-center md:text-left md:w-2/3 h-ful flex flex-col mt-5 sm:mt-0">
       <h2 className="text-3xl sm:text-4xl">
@@ -15,17 +18,21 @@ const Info = () => {
         deleted once downloads are completed.
       </p>
 
-      <Link
-        href="/login"
-        className="mt-auto text-center bg-neutral-800 p-3 text-sm sm:text-base rounded hover:bg-neutral-700 duration-150"
-      >
-        Create an account to get benefits
-      </Link>
+      {user ? null : (
+        <>
+          <Link
+            href="/register"
+            className="mt-auto text-center bg-neutral-800 p-3 text-sm sm:text-base rounded hover:bg-neutral-700 duration-150"
+          >
+            Create an account to get benefits
+          </Link>
 
-      <p className="text-xs text-neutral-400/25 font-bold text-center mt-2">
-        If you get an account, can upload larger images and edit some download
-        values.
-      </p>
+          <p className="text-xs text-neutral-400/25 font-bold text-center mt-2">
+            If you get an account, can upload larger images and edit some
+            download values.
+          </p>
+        </>
+      )}
     </div>
   );
 };

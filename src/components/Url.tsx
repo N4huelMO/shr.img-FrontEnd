@@ -1,7 +1,10 @@
 import { useAppContext } from "@/context/AppProvider";
+import { useState } from "react";
 
 const Url = () => {
   const { url } = useAppContext();
+
+  const [copySuccess, setCopySuccess] = useState<string>("");
 
   return (
     <div className="text-center">
@@ -15,9 +18,10 @@ const Url = () => {
           navigator.clipboard.writeText(
             `${process.env.NEXT_PUBLIC_FRONTEND_URL}/link/${url}`
           );
+          setCopySuccess("Copied!");
         }}
       >
-        Copy to clipboard
+        {copySuccess ? copySuccess : "Copy to clipboard"}
       </button>
     </div>
   );

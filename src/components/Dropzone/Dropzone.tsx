@@ -79,8 +79,11 @@ const Dropzone = () => {
                 <p className="text-2xl hidden sm:block">
                   Drag &apos;n&apos; drop some image here
                 </p>
+
+                <p className="uppercase text-neutral-700 font-bold">or</p>
+
                 <button
-                  className="bg-neutral-800 w-full py-3 rounded my-10 hover:bg-neutral-700 duration-150 font-semibold"
+                  className="bg-neutral-800 w-full py-3 rounded my-2 hover:bg-neutral-700 duration-150 font-semibold"
                   type="button"
                 >
                   Select image to upload
