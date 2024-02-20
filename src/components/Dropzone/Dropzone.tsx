@@ -1,7 +1,7 @@
 import axiosClient from "@/config/axiosClient";
 import { useAppContext } from "@/context/AppProvider";
 import { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { FileRejection, useDropzone } from "react-dropzone";
 import AcceptedFiles from "./AcceptedFiles";
 import Info from "./Info";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
@@ -18,11 +18,18 @@ const Dropzone = () => {
     setLoading,
   } = useAppContext();
 
-  const onDropRejected = () => {
-    setAlert({
-      msg: "The limit for unregistered users is 1MB, register to access larger files uploads",
-      error: true,
-    });
+  const onDropRejected = useCallback(async (rejectedFile: FileRejection[]) => {
+    if (rejectedFile[0].errors[0].code === "file-too-large") {
+      setAlert({
+        msg: "The limit for unregistered users is 1MB, register to access larger files uploads",
+        error: true,
+      });
+    } else {
+      setAlert({
+        msg: "Only .png, .jpeg, .gif image files are accepted",
+        error: true,
+      });
+    }
 
     setTimeout(() => {
       setAlert({
@@ -30,7 +37,7 @@ const Dropzone = () => {
         error: false,
       });
     }, 4000);
-  };
+  }, []);
 
   const onDropAccepted = useCallback(async (acceptedFiles: File[]) => {
     setLoading(true);
@@ -54,6 +61,9 @@ const Dropzone = () => {
     onDropAccepted,
     onDropRejected,
     maxSize: user ? 100000000 : 1000000,
+    accept: {
+      "image/*": [".jpeg", ".png", ".gif"],
+    },
   });
 
   return (
